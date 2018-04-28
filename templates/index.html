@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>test</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.js"></script>
+</head>
+<body>
+    <h3>Logging</h3>
+    <p id="log"></p>
+    <button id="background">Execute</button>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            namespace = '/task';
+            socket = io.connect('http://' + document.domain + ':' + location.port + namespace);
+            socket.on('hostadd', function(msg){
+                document.cookie = "sid=" + msg.sid;
+            });
+            socket.on('info', function (msg) {
+                console.log('Recived: ' + msg.data);
+                var t = new Date(msg.time);
+                $('#log').append('Recived: ' + t.toLocaleTimeString() + '->' + msg.data + '<br>');
+
+            });
+            $('#background').on('click', function(){
+                $.get("{{ url_for('start_background_task') }}");
+            });
+        });
+    </script>
+</body>
+</html>
