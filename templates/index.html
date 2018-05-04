@@ -14,7 +14,14 @@
             namespace = '/task';
             socket = io.connect('http://' + document.domain + ':' + location.port + namespace);
             socket.on('hostadd', function(msg){
-                document.cookie = "sid=" + msg.sid;
+                console.log(msg.sid);
+                $.ajax({
+                    url: "{{ url_for('set_uid') }}",
+                    data: JSON.stringify({ sid: msg.sid }),
+                    type: 'post',
+                    dataType: 'json',
+                    contentType: "application/json; charset=utf-8"
+                })
             });
             socket.on('info', function (msg) {
                 console.log('Recived: ' + msg.data);
