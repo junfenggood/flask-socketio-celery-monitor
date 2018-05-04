@@ -26,9 +26,9 @@ celery.conf.update(app.config)
 def background_task(uid):
     sid = redis.get(uid)
     socketio.emit('info', {'data': 'Task starting ...', 'time': time.time() * 1000 },room=sid, namespace='/task')
-    time.sleep(4)
+    socketio.sleep(4)
     socketio.emit('info', {'data': 'Task running!', 'time': time.time() * 1000 }, room=sid, namespace='/task')
-    time.sleep(5)
+    socketio.sleep(5)
     socketio.emit('info', {'data': 'Task complete!', 'time': time.time()*1000 }, room=sid, namespace='/task')
 
 @socketio.on('connect', namespace='/task')
