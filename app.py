@@ -10,10 +10,10 @@ eventlet.monkey_patch()
 
 app = Flask(__name__)
 
-app.config['BROKER_URL'] = 'redis://localhost:6379/0'
-app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
+app.config['BROKER_URL'] = 'redis://redis:6379/0'
+app.config['CELERY_RESULT_BACKEND'] = 'redis://redis:6379/0'
 app.config['CELERY_ACCEPT_CONTENT'] = ['json', 'pickle']
-app.config['REDIS_URL'] = 'redis://localhost:6379/0'
+app.config['REDIS_URL'] = 'redis://redis:6379/0'
 
 socketio = SocketIO(app, async_mode='eventlet',message_queue=app.config['CELERY_RESULT_BACKEND'])
 redis = FlaskRedis(app)
@@ -60,4 +60,4 @@ def set_uid():
     return jsonify({'success': True})
 
 if __name__ == '__main__':
-    socketio.run(app, host='0.0.0.0', port=5000, debug=True)
+    socketio.run(app, host='0.0.0.0', port=5001, debug=True)
